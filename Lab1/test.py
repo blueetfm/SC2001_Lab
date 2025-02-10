@@ -7,7 +7,7 @@ datasets.
 (c) Analyze time complexity: Run your program of the hybrid algorithm on the
 datasets generated in Step (b). 
     - Record the number of key comparisons performed in each case.
-    
+
     i. With the value of S fixed, plot the number of key comparisons over
     different sizes of the input list n. Compare your empirical results with
     your theoretical analysis of the time complexity.
@@ -27,7 +27,7 @@ def generate_arrays(max) -> [[]]:
     test_arrays = []
 
     # generate 100 test arrays
-    for i in range(10):
+    for _ in range(10):
         rand_size = random.randint(1000, 10000000)
         array = [random.randint(1, max) for _ in range(rand_size)]
         random.shuffle(array)

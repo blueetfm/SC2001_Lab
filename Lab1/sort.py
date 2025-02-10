@@ -19,7 +19,7 @@ def insertion_sort(arr, left, right) -> []:
             else:
                 break
 
-    return arr, comparisons
+    return comparisons
     # for i in range(left + 1, right + 1):
     #     j = i
     #     while j > left and arr[j] < arr[j - 1]:
@@ -62,7 +62,6 @@ def merge(arr, left, mid, right):
     return comparisons
 
 
-# Original Mergesort
 def merge_sort_ori(arr, left, right):
     total_comparisons = 0
 
@@ -70,11 +69,12 @@ def merge_sort_ori(arr, left, right):
 
         mid = (left + right) // 2
 
-        merge_sort_ori(arr, left, mid)
-        merge_sort_ori(arr, mid + 1, right)
+        total_comparisons += merge_sort_ori(arr, left, mid)
+        total_comparisons += merge_sort_ori(arr, mid + 1, right)
         total_comparisons += merge(arr, left, mid, right)
     
-    return arr, total_comparisons
+    return total_comparisons
+
 
 def merge_sort_hybrid(arr, left, right, s):
     total_comparisons = 0
@@ -82,18 +82,20 @@ def merge_sort_hybrid(arr, left, right, s):
     if left < right:
 
         if (right - left) <= s:
-            arr, insertion_comparisons = insertion_sort(arr, left, right)
+            insertion_comparisons = insertion_sort(arr, left, right)
             total_comparisons += insertion_comparisons
             
-            return arr, total_comparisons
+            return total_comparisons
 
         mid = (left + right) // 2
 
-        merge_sort_hybrid(arr, left, mid, s)
-        merge_sort_hybrid(arr, mid + 1, right, s)
+        total_comparisons += merge_sort_hybrid(arr, left, mid, s)
+        total_comparisons += merge_sort_hybrid(arr, mid + 1, right, s)
         total_comparisons += merge(arr, left, mid, right)
     
-    return arr, total_comparisons
-    
+    return total_comparisons
 
-print(merge_sort_hybrid([41, 714, 914, 815, 198, 972, 1013, 1040, 865, 273, 886, 925, 84, 623, 963, 179, 277, 640, 415], 0, 18, 4))
+arr = [41, 714, 914, 815, 198, 972, 1013, 1040, 865, 273, 886, 925, 84, 623, 963, 179, 277, 640, 415]
+print(merge_sort_ori(arr, 0, 18))
+
+print(merge_sort_hybrid(arr, 0, 18, 4))
