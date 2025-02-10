@@ -9,12 +9,19 @@ the algorithm will switch to Insertion Sort, which is efficient for small-sized 
 
 def insertion_sort(arr, left, right) -> []:
     for i in range(left + 1, right + 1):
-        j = i
-        while j > left and arr[j] < arr[j - 1]:
-            arr[j], arr[j - 1] = arr[j - 1], arr[j]
-            j -= 1
-
+        for j in range(i, left, -1):
+            if arr[j-1] > arr[j]:
+                arr[j], arr[j-1] = arr[j-1], arr[j]
+            else:
+                break
     return arr
+    # for i in range(left + 1, right + 1):
+    #     j = i
+    #     while j > left and arr[j] < arr[j - 1]:
+    #         arr[j], arr[j - 1] = arr[j - 1], arr[j]
+    #         j -= 1
+
+    # return arr
 
 
 def merge(arr, left, mid, right):
