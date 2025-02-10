@@ -51,10 +51,20 @@ def merge(arr, left, mid, right):
 
 
 # Original Mergesort
-def merge_sort_ori(arr, left, right):
+def merge_sort_ori(arr, left, right, s):
     if left < right:
+
+        if (right - left) <= s:
+            insertion_sort(arr, left, right)
+            return arr
+
         mid = (left + right) // 2
 
-        merge_sort_ori(arr, left, mid)
-        merge_sort_ori(arr, mid + 1, right)
+        merge_sort_ori(arr, left, mid, s)
+        merge_sort_ori(arr, mid + 1, right, s)
         merge(arr, left, mid, right)
+    
+    return arr
+
+
+print(merge_sort_ori([1, 4, 2, 6], 0, 3, 2))
