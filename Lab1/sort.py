@@ -95,7 +95,11 @@ def merge_sort_hybrid(arr, left, right, s):
     
     return total_comparisons
 
+
+# We can change it such that the function itself returns the array 
 arr = [41, 714, 914, 815, 198, 972, 1013, 1040, 865, 273, 886, 925, 84, 623, 963, 179, 277, 640, 415]
 print(merge_sort_ori(arr, 0, 18))
-
+print(arr)
+arr = [41, 714, 914, 815, 198, 972, 1013, 1040, 865, 273, 886, 925, 84, 623, 963, 179, 277, 640, 415]
 print(merge_sort_hybrid(arr, 0, 18, 4))
+print(arr)
