@@ -13,8 +13,8 @@ def insertion_sort(arr, left, right) -> []:
 
     for i in range(left + 1, right + 1):
         for j in range(i, left, -1):
+            comparisons += 1
             if arr[j-1] > arr[j]:
-                comparisons += 1
                 arr[j], arr[j-1] = arr[j-1], arr[j]
             else:
                 break
