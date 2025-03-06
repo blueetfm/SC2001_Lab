@@ -21,14 +21,14 @@ def dijkstra_matrix_array(graph, start):
     comparisons = 0
     
     # Initialize distances and visited array
-    dist = [float('infinity')] * n
+    dist = [float('inf')] * n
     pi = [None] * n
     visited = [False] * n
 
     dist[start] = 0
     
     for _ in range(n):
-        min_dist = float('infinity')
+        min_dist = float('inf')
 
         # Part 1: Finding the cheapest (unvisited) vertex
         # ----------------------------------------------
@@ -54,15 +54,14 @@ def dijkstra_matrix_array(graph, start):
         visited[min_vertex] = True
         
         for v in range(n):
-            if not visited[v] and graph[min_vertex][v] != float('infinity'):
+            if not visited[v] and graph[min_vertex][v] != float('inf'):
                 if dist[min_vertex] + graph[min_vertex][v] < dist[v]:
                     pi[v] = min_vertex
                     dist[v] = dist[min_vertex] + graph[min_vertex][v]
         
         comparisons += n  # V comparisons for updating neighbors paths
     
-    printSolution(n, dist)
-    return dist, comparisons
+    return n, dist, pi, comparisons
 
 
 # Implementation b: adj list + heap
@@ -81,15 +80,15 @@ def dijkstra_list_heap(graph, start):
     edge_comparisons = 0  # count of edge relaxation comparisons
     
 
-    # dist = {vertex: float('infinity') for vertex in graph}
-    dist = [float('infinity')] * n
+    # dist = {vertex: float('inf') for vertex in graph}
+    dist = [float('inf')] * n
     pi = [None] * n
     visited = [False] * n
     dist[start] = 0
 
     priority_queue = [(0, start)]
     
-    while priority_queue:
+    '''while priority_queue:
         d_u, u = heapq.heappop(priority_queue)
         heap_operations += 1
         comparisons += 2 * math.log2(len(priority_queue) + 1) if priority_queue else 0  # Heap extraction comparisons
@@ -100,7 +99,7 @@ def dijkstra_list_heap(graph, start):
         visited[u] = True  
 
         for v in range(n):
-            if not visited[v] and graph[u][v] != float('infinity'):
+            if not visited[v] and graph[u][v] != float('inf'):
                 comparisons += 1  # Comparison for relaxation
                 
                 if dist[u] + graph[u][v] < dist[v]: 
@@ -108,32 +107,33 @@ def dijkstra_list_heap(graph, start):
                     pi[v] = u
                     heapq.heappush(priority_queue, (dist[v], v))  
                     heap_operations += 1
-                    comparisons += 2 * math.log2(len(priority_queue)) if priority_queue else 0  # Heap insertion comparisons
+                    comparisons += 2 * math.log2(len(priority_queue)) if priority_queue else 0  # Heap insertion comparisons'''
     
     
-    '''while priority_queue:
+    while priority_queue:
         # get v with min distance
-        d_u, = heapq.heappop(priority_queue)
+        d_u, u = heapq.heappop(priority_queue)
         heap_operations += 1
-        comparisons += 2 * math.log2(len(priority_queue) + 1) if priority_queue else 0
+        comparisons += 2 * math.log2(len(priority_queue) + 1) if priority_queue else 0 # Heap extraction comparisons
         
-        # skip if better path exist
-        if current_dist > dist[current_vertex]:
+        if visited[u]:
             continue
-        
-        # check all neighbours
-        for neighbor, weight in graph[current_vertex]:
-            distance = current_dist + weight
-            
-            # update dist if better path found
-            edge_comparisons += 1
-            if distance < dist[neighbor]:
-                dist[neighbor] = distance
-                heapq.heappush(priority_queue, (distance, neighbor))
+
+        visited[u] = True  
+
+        # check all vertices v adjacent to u
+        for v, weight in graph[u]:
+            if not visited[v] and dist[v] > dist[u] + weight:
+                edge_comparisons += 1
+                dist[v] = dist[u] + weight
+                pi[v] = u
+
+                heapq.heappush(priority_queue, (dist[v], v))
                 heap_operations += 1
-                comparisons += 2 * math.log2(len(priority_queue)) if priority_queue else 0
+                comparisons += 2 * math.log2(len(priority_queue)) if priority_queue else 0 # Heap insertion comparisons
     
     # total comp = heap comps + edge relaxation comps
-    comparisons += edge_comparisons'''
-    printSolution(n, dist)
-    return dist, pi, comparisons
+    comparisons += edge_comparisons
+
+
+    return n, dist, pi, comparisons
