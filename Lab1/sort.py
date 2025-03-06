@@ -8,7 +8,6 @@ the algorithm will switch to Insertion Sort, which is efficient for small-sized 
 
 
 def insertion_sort(arr, left, right) -> []:
-    # both are the same implementation, just not sure which one is clearer to read
     comparisons = 0
 
     for i in range(left + 1, right + 1):
@@ -81,7 +80,7 @@ def merge_sort_hybrid(arr, left, right, s):
 
     if left < right:
 
-        if (right - left) <= s:
+        if (right - left + 1) <= s:
             insertion_comparisons = insertion_sort(arr, left, right)
             total_comparisons += insertion_comparisons
             
