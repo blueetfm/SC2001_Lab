@@ -4,32 +4,48 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 
-def generate_graph(n, density=0.5, max_weight=10):
+def generate_graph(n, density=0.5, max_weight=10, directed=False):
     """
     Generates a random weighted graph.
-
+    
+    Args:
+        n: Number of nodes
+        density: Probability of edge creation between any two nodes
+        max_weight: Maximum edge weight
+        directed: If True, creates a directed graph; otherwise creates undirected
+        
     Returns:
         - adj_matrix: Adjacency matrix (2D list)
         - adj_list: Array of adjacency lists (list of lists)
+        - edge_count: Number of edges in the graph
     """
-
     adj_matrix = [[float('inf')] * n for _ in range(n)]
-    adj_list = [[] for _ in range(n)]  # nodes with no connections are simply not represented
+    adj_list = [[] for _ in range(n)]
     edge_count = 0
 
+    # Set diagonal to 0 (distance to self)
     for i in range(n):
-        adj_matrix[i][i] = 0 
+        adj_matrix[i][i] = 0
 
-        for j in range(i + 1, n):
-            if random.random() < density:
+    # Create edges
+    for i in range(n):
+        for j in range(n):
+            if i != j and random.random() < density:
                 weight = random.randint(1, max_weight)
-                
-                # Populate adjacency matrix
-                adj_matrix[i][j] = weight # directed graph
 
-                # Populate adjacency list (array of lists)
+                # Populate adjacency matrix
+                adj_matrix[i][j] = weight
+
+                # Populate adjacency list
                 adj_list[i].append((j, weight))
+
                 edge_count += 1
+
+                # If undirected, add the reverse edge too
+                if not directed:
+                    adj_matrix[j][i] = weight
+                    adj_list[j].append((i, weight))
+                    edge_count += 1
 
     return adj_matrix, adj_list, edge_count
 
