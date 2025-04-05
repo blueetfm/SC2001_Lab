@@ -32,7 +32,26 @@ def knapsack(weights, profits, capacity, n):
                 # Choice 2: profit[i - weights[j]][j-1] + profits[j] includes the j-th item, 
                 # # and represents the max profit of remaining capacity and items, plus the added profit of j-th item
                 profit[c][j] = max(profit[c][j-1], profit[c - weights[j - 1]][j-1] + profits[j-1])
-
   
-    return profit[capacity][n]
+    return profit, profit[capacity][n]
 
+def print_matrix(weights, profits, matrix):
+    n = len(matrix[0])
+    capacity = len(matrix)
+
+    # Print column headers
+    print("Capacity\\Items |", end=" ")
+    for j in range(n):
+        if j == 0:
+            print("0   ", end=" ")  # No items
+        else:
+            print(f"{j}({weights[j-1]}/{profits[j-1]})", end=" ")
+    print("\n" + "-" * (12 + n * 8))
+
+    # Print matrix row by row
+    for i in range(capacity):
+        print(f"{i:<14}|", end=" ")
+        for j in range(n):
+            print(f"{matrix[i][j]:<8}", end=" ")
+        print()
+    print()
