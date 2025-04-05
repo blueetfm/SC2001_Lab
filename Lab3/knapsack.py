@@ -55,3 +55,57 @@ def print_matrix(weights, profits, matrix):
             print(f"{matrix[i][j]:<8}", end=" ")
         print()
     print()
+
+def print_unbounded_matrix(weights, profits, dp_array):
+    capacity = len(dp_array)
+    n = len(weights)
+    
+    # Create a header with item information
+    print("\nUnbounded Knapsack DP Array:")
+    print(f"Items available: ", end="")
+    for i in range(n):
+        print(f"Item {i}(w:{weights[i]}/v:{profits[i]})", end="  ")
+    print("\n" + "-" * 50)
+    
+    # Print capacity and corresponding max value
+    print("Capacity | Max Value")
+    print("-" * 20)
+    
+    for c in range(capacity):
+        print(f"{c:<9}| {dp_array[c]}")
+    
+    # Optional: add a summary of the optimal solution
+    max_capacity = capacity - 1
+    print("\nOptimal solution for capacity", max_capacity, ":", dp_array[max_capacity])
+    
+    # Backtrack to show which items were selected (optional)
+    remaining = max_capacity
+    item_count = [0] * n
+    print("\nItems selected:")
+    
+    while remaining > 0:
+        was_item_added = False
+        for i in range(n):
+            if weights[i] <= remaining and dp_array[remaining] == dp_array[remaining - weights[i]] + profits[i]:
+                item_count[i] += 1
+                remaining -= weights[i]
+                was_item_added = True
+                break
+        if not was_item_added:
+            break
+    
+    for i in range(n):
+        if item_count[i] > 0:
+            print(f"Item {i} (w:{weights[i]}/v:{profits[i]}) × {item_count[i]}")
+
+def unbounded_knapsack(weights, profits, capacity):
+    dp_array = [0] * (capacity + 1)
+
+    for c in range(1, capacity + 1):
+        for i in range(len(weights)):
+            if weights[i] <= c:
+                dp_array[c] = max(dp_array[c], dp_array[c - weights[i]] + profits[i])
+    
+    print_unbounded_matrix(weights, profits, dp_array)
+    return dp_array[capacity]
+
