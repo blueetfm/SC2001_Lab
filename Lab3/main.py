@@ -10,9 +10,9 @@ def part_4a(weights, profits, capacity, n):
 # Example 1:
 weights1 = [4, 6, 8]
 profits1 = [7, 6, 9]
-part_4a(weights1, profits1, 14, 3)
+part_4a(weights1, profits1, 14, len(weights1))
 
 # Example 2:
 weights2 = [5, 6, 8]
 profits2 = [7, 6, 9]
-part_4a(weights2, profits2, 14, 3)
+part_4a(weights2, profits2, 14, len(weights2))
