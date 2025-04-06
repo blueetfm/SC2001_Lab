@@ -1,8 +1,8 @@
-from knapsack import knapsack, print_matrix, unbounded_knapsack
+from knapsack import zero_one_knapsack, print_matrix, unbounded_knapsack
 
 def part_4a(weights, profits, capacity, n):
     print(f"\n--- Running knapsack for capacity = {capacity}, weights = {weights}, profits = {profits} ---")
-    res_matrix, max_profit = knapsack(weights, profits, capacity, n)
+    res_matrix, max_profit = zero_one_knapsack(weights, profits, capacity, n)
     print_matrix(weights, profits, res_matrix)
 
     print(f"The result of P(14) with weights [4, 6, 8] and profits [7, 6, 9] is {max_profit}.")

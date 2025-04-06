@@ -1,16 +1,4 @@
-# Part 1 
-# def knapsack_recursive(weights, profits, capacity, n):
-#     if n == 0 or capacity == 0:
-#         return 0
-
-#     if weights[n-1] <= capacity:
-
-
-#     return
-
-
-# Part 3
-def knapsack(weights, profits, capacity, n):
+def zero_one_knapsack(weights, profits, capacity, n):
     profit = [[0] * (n + 1) for _ in range(capacity + 1)]
 
     # Base Case 1: if we have 0 items to choose from, the profit is 0
@@ -35,6 +23,18 @@ def knapsack(weights, profits, capacity, n):
   
     return profit, profit[capacity][n]
 
+def unbounded_knapsack(weights, profits, capacity):
+    dp_array = [0] * (capacity + 1)
+
+    for c in range(1, capacity + 1):
+        for i in range(len(weights)):
+            if weights[i] <= c:
+                dp_array[c] = max(dp_array[c], dp_array[c - weights[i]] + profits[i])
+    
+    print_unbounded_matrix(weights, profits, dp_array)
+    return dp_array[capacity]
+
+
 def print_matrix(weights, profits, matrix):
     n = len(matrix[0])
     capacity = len(matrix)
@@ -55,6 +55,7 @@ def print_matrix(weights, profits, matrix):
             print(f"{matrix[i][j]:<8}", end=" ")
         print()
     print()
+
 
 def print_unbounded_matrix(weights, profits, dp_array):
     capacity = len(dp_array)
@@ -98,14 +99,5 @@ def print_unbounded_matrix(weights, profits, dp_array):
         if item_count[i] > 0:
             print(f"Item {i} (w:{weights[i]}/v:{profits[i]}) × {item_count[i]}")
 
-def unbounded_knapsack(weights, profits, capacity):
-    dp_array = [0] * (capacity + 1)
 
-    for c in range(1, capacity + 1):
-        for i in range(len(weights)):
-            if weights[i] <= c:
-                dp_array[c] = max(dp_array[c], dp_array[c - weights[i]] + profits[i])
-    
-    print_unbounded_matrix(weights, profits, dp_array)
-    return dp_array[capacity]
 
